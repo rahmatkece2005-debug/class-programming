@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+
+        .kalkulator {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 300px;
+        }
+
+        #screen {
+            width: 100%;
+            height: 50px;
+            font-size: 24px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: none;
+            border-bottom: 2px solid #333;
+            outline: none;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #dcdcdc;
+        }
+
+        button:active {
+            background-color: #bcbcbc;
+        }
+
+        .operator {
+            background-color: #ff9f43;
+            color: white;
+        }
+
+        .operator:hover {
+            background-color: #ff7f00;
+        }
+
+        .equal {
+            background-color: #00b894;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .clear {
+            background-color: #d63031;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="kalkulator">
+        <input type="text" id="screen" readonly>
+
+        <div class="buttons">
+            <button onclick="tambahAngka('7')">7</button>
+            <button onclick="tambahAngka('8')">8</button>
+            <button onclick="tambahAngka('9')">9</button>
+            <button class="operator" onclick="operator('/')">/</button>
+
+            <button onclick="tambahAngka('4')">4</button>
+            <button onclick="tambahAngka('5')">5</button>
+            <button onclick="tambahAngka('6')">6</button>
+            <button class="operator" onclick="operator('*')">*</button>
+
+            <button onclick="tambahAngka('1')">1</button>
+            <button onclick="tambahAngka('2')">2</button>
+            <button onclick="tambahAngka('3')">3</button>
+            <button class="operator" onclick="operator('-')">-</button>
+
+            <button onclick="tambahAngka('0')">0</button>
+            <button onclick="tambahAngka('.')">.</button>
+            <button class="equal" onclick="hitung()">=</button>
+            <button class="operator" onclick="operator('+')">+</button>
+
+            <button class="clear" onclick="hapus()">C</button>
+        </div>
+    </div>
+
+    <script>
+        let nilai1 = "";
+        let nilai2 = "";
+        let opr = "";
+        let isResultShown = false;
+
+        function tambahAngka(angka) {
+            if (isResultShown) {
+                document.getElementById("screen").value = "";
+                isResultShown = false;
+            }
+            document.getElementById("screen").value += angka;
+        }
+
+        function operator(oprDariTombol) {
+            if (document.getElementById("screen").value === "") return;
+
+            nilai1 = document.getElementById("screen").value;
+            opr = oprDariTombol;
+            document.getElementById("screen").value = "";
+        }
+
+        function hitung() {
+            nilai2 = document.getElementById("screen").value;
+            let hasil = 0;
+
+            const num1 = parseFloat(nilai1);
+            const num2 = parseFloat(nilai2);
+
+            switch (opr) {
+                case '+':
+                    hasil = num1 + num2;
+                    break;
+                case '-':
+                    hasil = num1 - num2;
+                    break;
+                case '*':
+                    hasil = num1 * num2;
+                    break;
+                case '/':
+                    if (num2 === 0) {
+                        alert("Tidak bisa dibagi nol");
+                        hasil = "";
+                    } else {
+                        hasil = num1 / num2;
+                    }
+                    break;
+                default:
+                    hasil = "";
+            }
+
+            document.getElementById("screen").value = hasil;
+            isResultShown = true;
+        }
+
+        function hapus() {
+            document.getElementById("screen").value = "";
+            nilai1 = "";
+            nilai2 = "";
+            opr = "";
+            isResultShown = false;
+        }
+    </script>
+</body>
+
+</html>
